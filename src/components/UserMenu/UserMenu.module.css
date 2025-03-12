@@ -1,0 +1,51 @@
+.outerContainer {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}
+
+.internalContainer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.iconBox {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background-color: var(--Green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconUser {
+    width: 24px;
+    height: 24px;
+    fill: var(--White);
+}
+
+.usernameTitle {
+    color: var(--Main);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+}
+
+.btnLogout {
+    color: var(--Main);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+    border-radius: 30px;
+    border: 1px solid rgba(25, 26, 21, 0.20);
+    padding: 14px 39px;
+    background-color: transparent;
+    cursor: pointer;
+}
