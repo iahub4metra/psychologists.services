@@ -1,0 +1,40 @@
+.btnsList {
+    display: flex;
+    gap: 8px;
+}
+
+.btnLogin {
+    color: var(--Main);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+    border-radius: 30px;
+    border: 1px solid rgba(25, 26, 21, 0.20);
+    padding: 14px 39px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+.btnRegister {
+    color: var(--White);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+    border-radius: 30px;
+    background-color: var(--Green);
+    padding: 14px 40px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 250ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.btnRegister:hover {
+    background-color: var(--Btn-hover);
+}
