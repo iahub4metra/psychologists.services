@@ -1,0 +1,52 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+:root {
+    --Main: #191A15;
+    --Green: #54BE96;
+    --Btn-hover: #36A379;
+    --Light-green: rgba(84, 190, 150, 0.2);
+    --White: #FBFBFB;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    color: #101828;
+    font-family: Inter;
+}
+
+.container {
+    width: 320px;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+}
