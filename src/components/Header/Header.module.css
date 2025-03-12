@@ -1,0 +1,26 @@
+header {
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(25, 26, 21, 0.1);
+}
+
+.logo {
+    color: var(--Green);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: -0.4px;
+}
+
+.logo span {
+    color: var(--Main);
+    padding-left: 2px;
+}
+
+.container {
+    width: 1440px;
+    padding: 0 128px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
