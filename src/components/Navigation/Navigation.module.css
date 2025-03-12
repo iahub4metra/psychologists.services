@@ -1,0 +1,25 @@
+.navList {
+    display: flex;
+    gap: 40px;
+}
+
+.navLink {
+    color: var(--Main);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+    position: relative;
+}
+
+.activeNavLink::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: var(--Green);
+    border-radius: 50%;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+}
