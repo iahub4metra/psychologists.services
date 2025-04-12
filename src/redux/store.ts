@@ -1,9 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { psychologistsReducer } from "./psychologists/slice";
+import { configureStore } from '@reduxjs/toolkit';
+import { psychologistsReducer } from './psychologists/slice';
+import { modalReducer } from './modal/slice';
 
 const store = configureStore({
   reducer: {
     psychologists: psychologistsReducer,
+    modals: modalReducer,
   },
 });
 

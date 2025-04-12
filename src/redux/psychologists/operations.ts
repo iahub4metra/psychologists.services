@@ -1,21 +1,52 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
+import {
+  ref,
+  query,
+  orderByKey,
+  startAfter,
+  limitToFirst,
+  get,
+} from 'firebase/database';
+import { database } from '../../utils/firebase-config'; // імпортуємо нашу базу даних
 import { Psychologist } from '../../components/App/Types';
 
-axios.defaults.baseURL = import.meta.env.VITE_FIREBASE_DATABASE_URL;
+interface FetchResponse {
+  psychologists: Psychologist[];
+  lastKey: string | null;
+}
 
-export const getPsychologists = createAsyncThunk<
-  Psychologist[],
-  void,
-  { rejectValue: string }
->('psychologists/fetchAll', async (_, thunkAPI) => {
-  try {
-    const res = await axios.get<Psychologist[]>(
-      '/psychologists.json&page=1&per_page=3',
-    );
-    return res.data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    return thunkAPI.rejectWithValue(axiosError.message);
-  }
-});
+export const getPsychologists = createAsyncThunk<FetchResponse, string | null>(
+  'psychologists/fetchAll',
+  async (lastKey, thunkAPI) => {
+    try {
+      let psychologistsQuery = query(
+        ref(database, 'psychologists'),
+        orderByKey(),
+        limitToFirst(3),
+      );
+
+      if (lastKey) {
+        psychologistsQuery = query(
+          ref(database, 'psychologists'),
+          orderByKey(),
+          startAfter(lastKey),
+          limitToFirst(3),
+        );
+      }
+
+      const snapshot = await get(psychologistsQuery);
+
+      if (!snapshot.exists()) {
+        return { psychologists: [], lastKey: null };
+      }
+
+      const data = snapshot.val();
+      const psychologists = Object.values(data) as Psychologist[];
+      const newLastKey = Object.keys(data).pop() || null;
+
+      return { psychologists, lastKey: newLastKey };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);

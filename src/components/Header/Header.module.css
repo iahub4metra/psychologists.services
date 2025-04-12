@@ -5,7 +5,7 @@ header {
 
 .logo {
     color: var(--Green);
-    font-size: 20px;
+    font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1440 -320)));
     font-weight: 700;
     line-height: 24px;
     letter-spacing: -0.4px;
@@ -17,10 +17,13 @@ header {
 }
 
 .container {
-    width: 1440px;
-    padding: 0 128px;
+    max-width: 1440px;
+    width: 100%;
+    padding: 0 min(8.88888888888889vw, 128px);
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }

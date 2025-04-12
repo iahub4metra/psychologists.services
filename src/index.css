@@ -1,3 +1,6 @@
+@import './reset.css';
+@import "tailwindcss";
+
 *,
 *::after,
 *::before {
@@ -10,35 +13,17 @@
     --Btn-hover: #36A379;
     --Light-green: rgba(84, 190, 150, 0.2);
     --White: #FBFBFB;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-    margin: 0;
-}
-
-ul,
-ol {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-img {
-    display: block;
-    max-width: 100%;
+    --Photo-border: rgba(84, 190, 150, 0.2);
 }
 
 body {
     padding: 0;
     margin: 0;
-    color: #101828;
+    color: #191A15;
     font-family: Inter;
+    background-color: #F3F3F3;
+    line-height: 24px;
+    font-size: 16px;
 }
 
 .container {
@@ -47,6 +32,12 @@ body {
     margin: 0 auto;
 }
 
-a {
-    text-decoration: none;
+@layer utilities {
+    .responsive-gap {
+        gap: calc(8px + (16 - 8) * ((100vw - 320px) / (1440 - 320)));
+    }
+
+    .px-container {
+        padding-inline: min(8.88888888888889vw, 128px);
+    }
 }

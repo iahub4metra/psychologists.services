@@ -1,10 +1,13 @@
 .container {
-    width: 1440px;
-    padding: 78px 128px;
+    max-width: 1440px;
+    width: 100%;
+    padding: 78px min(8.88888888888889vw, 128px);
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 88px;
 }
 
 .mainTextContainer {
@@ -12,30 +15,31 @@
     gap: 40px;
     flex-direction: column;
     align-items: start;
+    flex-grow: 1;
+    flex-basis: 40%;
     max-width: 595px;
 }
 
 .mainTitle {
     color: var(--Main);
-    font-size: 80px;
+    font-size: calc(40px + (80 - 40) * ((100vw - 320px) / (1440 - 320)));
     font-weight: 600;
-    line-height: 82px;
+    line-height: calc(41px + (82 - 41) * ((100vw - 320px) / (1440 - 320)));
     letter-spacing: -1.6px;
     margin-bottom: 20px;
 }
 
 .mainTitle>span {
     color: var(--Green);
-    font-size: 80px;
+    font-size: calc(40px + (80 - 40) * ((100vw - 320px) / (1440 - 320)));
     font-style: italic;
     font-weight: 600;
-    line-height: 82px;
+    line-height: calc(41px + (82 - 41) * ((100vw - 320px) / (1440 - 320)));
     letter-spacing: -1.6px;
 }
 
 .mainTitle+p {
     color: var(--Main);
-    font-size: 18px;
     font-weight: 500;
     line-height: 24px;
     letter-spacing: -0.36px;
@@ -66,19 +70,24 @@
     width: 18px;
 }
 
+.wrapperRightCont {
+    max-width: calc(100vw - (8.88888888888889vw * 2));
+}
+
 .rightContainer {
     position: relative;
+
 }
 
 .mainImg {
-    width: 464px;
-    height: 526px;
-    flex-shrink: 0;
+    max-width: 464px;
+    height: auto;
+    width: 100%;
 }
 
 .usersGroup {
-    width: 48.173px;
-    height: 48.173px;
+    width: calc(40px + (48.173 - 40) * ((100vw - 320px) / (1440 - 320)));
+    height: calc(40px + (48.173 - 40) * ((100vw - 320px) / (1440 - 320)));
     transform: rotate(15deg);
     flex-shrink: 0;
     background-color: #FBC75E;
@@ -87,22 +96,21 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    z-index: 1;
-    top: 38px;
-    right: -35px;
+    top: 10%;
+    right: -7%;
 }
 
 .usersGroupIcon {
-    width: 19.836px;
-    height: 19.836px;
+    width: calc(17px + (19.836 - 17) * ((100vw - 320px) / (1440 - 320)));
+    height: calc(17px + (19.836 - 17) * ((100vw - 320px) / (1440 - 320)));
     transform: rotate(5deg);
     flex-shrink: 0;
     fill: var(--White);
 }
 
 .questionGroup {
-    width: 40px;
-    height: 40px;
+    width: calc(34px + (40 - 34) * ((100vw - 320px) / (1440 - 320)));
+    height: calc(34px + (40 - 34) * ((100vw - 320px) / (1440 - 320)));
     transform: rotate(-15deg);
     flex-shrink: 0;
     background-color: #4535AF;
@@ -111,60 +119,56 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 185px;
-    left: -30px;
+    top: 35%;
+    left: -6%;
 }
 
 .questionGroupIcon {
     transform: rotate(15deg);
-    width: 17px;
-    height: 17px;
+    width: calc(15px + (17 - 15) * ((100vw - 320px) / (1440 - 320)));
+    height: calc(15px + (17 - 15) * ((100vw - 320px) / (1440 - 320)));
     flex-shrink: 0;
     fill: var(--White);
 }
 
 .lowerWrapper {
-    width: 311px;
-    height: 118px;
-    flex-shrink: 0;
-    border-radius: 20px;
+    border-radius: calc(10px + (20 - 10) * ((100vw - 320px) / (1440 - 320)));
     background: var(--Green);
-    padding: 32px;
+    padding: 2.2222222222222223vw;
     display: flex;
+    align-items: center;
     gap: 15px;
     position: absolute;
-    bottom: 75px;
-    left: -101px;
+    bottom: 19%;
+    left: -10%;
 }
 
 .iconContainer {
-    width: 54px;
-    height: 54px;
+    width: calc(30px + (54 - 30) * ((100vw - 320px) / (1440 - 320)));
+    height: calc(30px + (54 - 30) * ((100vw - 320px) / (1440 - 320)));
     flex-shrink: 0;
-    border-radius: 13px;
+    border-radius: calc(7px + (13 - 7) * ((100vw - 320px) / (1440 - 320)));
     background: var(--White);
-    padding: 12px;
+    padding: calc(7.5px + (12 - 7.5) * ((100vw - 320px) / (1440 - 320)));
 }
 
 .iconCheck {
-    width: 30px;
-    height: 30px;
+    width: calc(15px + (30 - 15) * ((100vw - 320px) / (1440 - 320)));
+    height: calc(15px + (30 - 15) * ((100vw - 320px) / (1440 - 320)));
     flex-shrink: 0;
     fill: var(--Green);
 }
 
 .text {
     color: rgba(251, 251, 251, 0.50);
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
+    font-size: calc(10px + (14 - 10) * ((100vw - 320px) / (1440 - 320)));
     font-weight: 400;
     line-height: normal;
-    margin-bottom: 8px;
+    margin-bottom: calc(4px + (8 - 4) * ((100vw - 320px) / (1440 - 320)));
 }
 
 .textNumbers {
     color: var(--White);
-    font-size: 24px;
+    font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1440 - 320)));
     font-weight: 700;
 }
