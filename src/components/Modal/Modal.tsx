@@ -5,6 +5,7 @@ import { selectIsModalOpen } from '../../redux/modal/selectors';
 import { AppDispatch } from '../../redux/store';
 import { closeModal } from '../../redux/modal/slice';
 import { IoIosClose } from 'react-icons/io';
+import s from './Modal.module.css';
 
 interface ModalProps {
     children: ReactNode;
@@ -30,7 +31,7 @@ export default function Modal({ children }: ModalProps) {
                     display: 'flex',
                 },
             }}
-            className="max-w-[566px] bg-[#FBFBFB] p-[64px] rounded-[30px]"
+            className={`w-full bg-[#FBFBFB] rounded-[30px] ${s.modal}`}
         >
             <button>
                 <IoIosClose

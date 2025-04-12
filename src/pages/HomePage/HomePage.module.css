@@ -22,19 +22,19 @@
 
 .mainTitle {
     color: var(--Main);
-    font-size: calc(40px + (80 - 40) * ((100vw - 320px) / (1440 - 320)));
+    font-size: min(10.556vw, 80px);
     font-weight: 600;
-    line-height: calc(41px + (82 - 41) * ((100vw - 320px) / (1440 - 320)));
+    line-height: min(10.6vw, 82px);
     letter-spacing: -1.6px;
     margin-bottom: 20px;
 }
 
 .mainTitle>span {
     color: var(--Green);
-    font-size: calc(40px + (80 - 40) * ((100vw - 320px) / (1440 - 320)));
+    font-size: min(10.556vw, 80px);
     font-style: italic;
     font-weight: 600;
-    line-height: calc(41px + (82 - 41) * ((100vw - 320px) / (1440 - 320)));
+    line-height: min(10.6vw, 82px);
     letter-spacing: -1.6px;
 }
 
@@ -134,7 +134,7 @@
 .lowerWrapper {
     border-radius: calc(10px + (20 - 10) * ((100vw - 320px) / (1440 - 320)));
     background: var(--Green);
-    padding: 2.2222222222222223vw;
+    padding: min(4vw, 32px);
     display: flex;
     align-items: center;
     gap: 15px;
@@ -144,12 +144,10 @@
 }
 
 .iconContainer {
-    width: calc(30px + (54 - 30) * ((100vw - 320px) / (1440 - 320)));
-    height: calc(30px + (54 - 30) * ((100vw - 320px) / (1440 - 320)));
     flex-shrink: 0;
-    border-radius: calc(7px + (13 - 7) * ((100vw - 320px) / (1440 - 320)));
+    border-radius: 13px;
     background: var(--White);
-    padding: calc(7.5px + (12 - 7.5) * ((100vw - 320px) / (1440 - 320)));
+    padding: 12px;
 }
 
 .iconCheck {

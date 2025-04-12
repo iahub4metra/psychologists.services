@@ -1,0 +1,4 @@
+.modal {
+    padding: min(9vw, 64px);
+    max-width: min(calc(100vw - 10vw), 566px);
+}
