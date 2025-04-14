@@ -10,9 +10,15 @@ import {
 } from '@mui/material';
 import { loginSchema } from '../../utils/validationSchema';
 import s from './Forms.module.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../utils/firebase-config';
+import { AppDispatch } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/auth/slice';
+import { closeModal } from '../../redux/modal/slice';
 
 interface FormValues {
     email: string;
@@ -21,7 +27,7 @@ interface FormValues {
 
 export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
-
+    const dispatch: AppDispatch = useDispatch();
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleMouseDownPassword = (
         event: React.MouseEvent<HTMLButtonElement>,
@@ -38,20 +44,27 @@ export default function LoginForm() {
         register,
         handleSubmit,
         reset,
-        formState: { errors, isSubmitSuccessful },
+        formState: { errors },
     } = useForm<FormValues>({
         resolver: yupResolver(loginSchema),
     });
 
-    const onSubmit = (data: FormValues) => {
+    const onSubmit = async (data: FormValues) => {
         console.log('Submited data', data);
-    };
-
-    useEffect(() => {
-        if (isSubmitSuccessful) {
-            reset({ email: '', password: '' });
+        try {
+            const credentials = await signInWithEmailAndPassword(
+                auth,
+                data.email,
+                data.password,
+            );
+            const user = credentials.user;
+            dispatch(setUser({ name: user.displayName, email: user.email }));
+            reset();
+            dispatch(closeModal());
+        } catch (error) {
+            console.log(error);
         }
-    });
+    };
 
     return (
         <div>

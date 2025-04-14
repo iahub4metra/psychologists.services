@@ -3,9 +3,12 @@ import Navigation from '../Navigation/Navigation';
 import s from './Header.module.css';
 import Authorization from '../Authorization/Authorization';
 import UserMenu from '../UserMenu/UserMenu';
+import { useSelector } from 'react-redux';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
 
 export default function Header() {
-    const logedIn = false;
+    const loggedIn = useSelector(selectIsLoggedIn);
+
     return (
         <header>
             <div className={s.container}>
@@ -13,7 +16,7 @@ export default function Header() {
                     psychologists.<span>servises</span>
                 </Link>
                 <Navigation />
-                {logedIn ? <UserMenu /> : <Authorization />}
+                {loggedIn ? <UserMenu /> : <Authorization />}
             </div>
         </header>
     );
