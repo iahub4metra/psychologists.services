@@ -9,7 +9,7 @@ import store from './redux/store';
 createRoot(document.getElementById('root') as HTMLElement).render(
     <StrictMode>
         <Provider store={store}>
-            <BrowserRouter>
+            <BrowserRouter basename="/">
                 <App />
             </BrowserRouter>
         </Provider>
