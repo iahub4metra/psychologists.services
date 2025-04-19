@@ -5,15 +5,15 @@ import { AppDispatch } from '../../redux/store';
 import PsychologistsList from '../../components/PsychologistsList/PsychologistsList';
 
 export default function Psychologists() {
-  const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    dispatch(getPsychologists(null));
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(getPsychologists(null));
+    }, [dispatch]);
 
-  return (
-    <div className="max-w-[1440px] w-auto mx-auto px-container">
-      <PsychologistsList />
-    </div>
-  );
+    return (
+        <div className="max-w-[1440px] w-auto mx-auto px-container">
+            <PsychologistsList />
+        </div>
+    );
 }

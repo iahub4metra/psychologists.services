@@ -50,7 +50,6 @@ export default function LoginForm() {
     });
 
     const onSubmit = async (data: FormValues) => {
-        console.log('Submited data', data);
         try {
             const credentials = await signInWithEmailAndPassword(
                 auth,

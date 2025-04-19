@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export type User = {
     name: string;
     email: string;
+    token: string;
 };
 
 interface InitialValue {
