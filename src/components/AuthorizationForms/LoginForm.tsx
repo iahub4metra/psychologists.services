@@ -19,6 +19,7 @@ import { AppDispatch } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/auth/slice';
 import { closeModal } from '../../redux/modal/slice';
+import { fetchFavourites } from '../../redux/favourites/operations';
 
 interface FormValues {
     email: string;
@@ -57,7 +58,15 @@ export default function LoginForm() {
                 data.password,
             );
             const user = credentials.user;
-            dispatch(setUser({ name: user.displayName, email: user.email }));
+
+            dispatch(
+                setUser({
+                    name: user.displayName,
+                    email: user.email,
+                    uid: user.uid,
+                }),
+            );
+            dispatch(fetchFavourites(user.uid));
             reset();
             dispatch(closeModal());
         } catch (error) {

@@ -27,6 +27,7 @@ export default function App() {
                         name: user.displayName,
                         email: user.email,
                         token: token,
+                        uid: user.uid,
                     }),
                 );
             } else {

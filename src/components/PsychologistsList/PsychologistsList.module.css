@@ -9,6 +9,7 @@
     letter-spacing: -0.16px;
     margin-inline: auto;
     display: block;
+    cursor: pointer;
 }
 
 .psychologistsList {

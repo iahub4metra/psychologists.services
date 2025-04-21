@@ -62,7 +62,13 @@ export default function RegisterForm() {
             });
             const user = userCredentials.user;
 
-            dispatch(setUser({ name: user.displayName, email: user.email }));
+            dispatch(
+                setUser({
+                    name: user.displayName,
+                    email: user.email,
+                    uid: user.uid,
+                }),
+            );
             reset();
             dispatch(closeModal());
         } catch (error) {

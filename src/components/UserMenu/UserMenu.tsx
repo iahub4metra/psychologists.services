@@ -6,6 +6,7 @@ import { logout } from '../../redux/auth/slice';
 import { selectUser } from '../../redux/auth/selectors';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../utils/firebase-config';
+import { clearAllFavourites } from '../../redux/favourites/slice';
 
 export default function UserMenu() {
     const dispatch: AppDispatch = useDispatch();
@@ -13,6 +14,7 @@ export default function UserMenu() {
 
     const handleLogOut = () => {
         signOut(auth);
+        dispatch(clearAllFavourites());
         dispatch(logout());
     };
     return (
