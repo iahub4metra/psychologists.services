@@ -5,7 +5,7 @@ header {
 
 .logo {
     color: var(--Green);
-    font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1440 -320)));
+    font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (1440 - 320)));
     font-weight: 700;
     line-height: 24px;
     letter-spacing: -0.4px;

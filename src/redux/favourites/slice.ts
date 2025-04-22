@@ -4,10 +4,12 @@ import { fetchFavourites } from './operations';
 
 interface InitialValue {
     items: Psychologist[];
+    lastKeyFav: string | null;
 }
 
 const initialState: InitialValue = {
     items: [],
+    lastKeyFav: null,
 };
 
 const favouritesSlice = createSlice({
@@ -29,7 +31,8 @@ const favouritesSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fetchFavourites.fulfilled, (state, action) => {
-            state.items = action.payload;
+            state.items = [...state.items, ...action.payload.favourites];
+            state.lastKeyFav = action.payload.lastKey;
         });
     },
 });

@@ -1,0 +1,17 @@
+.btnLoadMore {
+    padding: 14px 48px;
+    border-radius: 30px;
+    background-color: var(--Green);
+    color: var(--White);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.16px;
+    margin-inline: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.psychologistsList {
+    margin-bottom: 64px;
+}

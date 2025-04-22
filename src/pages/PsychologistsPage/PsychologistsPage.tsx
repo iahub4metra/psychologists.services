@@ -9,11 +9,14 @@ import { fetchFavourites } from '../../redux/favourites/operations';
 export default function Psychologists() {
     const dispatch = useDispatch<AppDispatch>();
     const user = useSelector(selectUser);
+
+    useEffect(() => {
+        dispatch(getPsychologists(null));
+    }, [dispatch]);
     useEffect(() => {
         if (user) {
-            dispatch(fetchFavourites(user.uid));
+            dispatch(fetchFavourites({ uid: user.uid, lastKey: null }));
         }
-        dispatch(getPsychologists(null));
     }, [dispatch, user]);
 
     return (

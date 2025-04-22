@@ -1,20 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    selectLastKey,
-    selectLoading,
-    selectPsychologists,
-} from '../../redux/psychologists/selectors';
 import PsychologistCard from '../PsychologistCard/PsychologistCard';
 import { Psychologist } from '../App/Types';
 import { AppDispatch } from '../../redux/store';
 import { getPsychologists } from '../../redux/psychologists/operations';
-import s from './PsychologistsList.module.css';
+import s from './FavouritesList.module.css';
+import {
+    selectFavPsychologists,
+    selectLastKeyFav,
+} from '../../redux/favourites/selectors';
 
-export default function PsychologistsList() {
+export default function FavouritesList() {
     const dispatch: AppDispatch = useDispatch();
-    const psychologists = useSelector(selectPsychologists);
-    const lastKey = useSelector(selectLastKey);
-    const loading = useSelector(selectLoading);
+    const favPsychologists = useSelector(selectFavPsychologists);
+    const lastKey = useSelector(selectLastKeyFav);
 
     const loadMore = () => {
         if (lastKey) {
@@ -25,7 +23,7 @@ export default function PsychologistsList() {
     return (
         <>
             <ul className={`flex gap-8 flex-col ${s.psychologistsList}`}>
-                {psychologists.map((psychologist: Psychologist, index) => {
+                {favPsychologists.map((psychologist: Psychologist, index) => {
                     return (
                         <li key={index} className="@container/card">
                             <PsychologistCard
@@ -36,14 +34,10 @@ export default function PsychologistsList() {
                     );
                 })}
             </ul>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                lastKey && (
-                    <button className={s.btnLoadMore} onClick={loadMore}>
-                        Load More
-                    </button>
-                )
+            {lastKey && (
+                <button className={s.btnLoadMore} onClick={loadMore}>
+                    Load More
+                </button>
             )}
         </>
     );

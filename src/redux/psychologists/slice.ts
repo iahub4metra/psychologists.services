@@ -38,18 +38,7 @@ const psychologistsSlice = createSlice({
             })
             .addCase(getPsychologists.fulfilled, (state, action) => {
                 state.loading = false;
-                const newPsychologists = action.payload.psychologists;
-
-                // Фільтруємо лише нові, яких ще немає в state.data
-                const uniquePsychologists = newPsychologists.filter(
-                    (newPsychologist) =>
-                        !state.data.some(
-                            (existing) => existing.id === newPsychologist.id,
-                        ),
-                );
-
-                // Додаємо тільки унікальні
-                state.data.push(...uniquePsychologists);
+                state.data = [...state.data, ...action.payload.psychologists];
                 state.lastKey = action.payload.lastKey;
             })
             .addCase(getPsychologists.rejected, (state, action) => {

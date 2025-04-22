@@ -44,12 +44,14 @@ export const getPsychologists = createAsyncThunk<FetchResponse, string | null>(
 
             const psychologists = Object.values(data) as Psychologist[];
 
-            const psychologistsWithId = psychologists.map(
-                (psychologist, index) => ({
-                    ...psychologist,
-                    id: `psychologist-${index}`,
-                }),
-            );
+            const psychologistsWithId = psychologists.map((psychologist) => ({
+                ...psychologist,
+                id: `psychologist-${psychologist.name
+                    .toLowerCase()
+                    .replace(/^dr\.?\s*/i, '')
+                    .trim()
+                    .replace(/\s+/g, '-')}`,
+            }));
             const newLastKey = Object.keys(data).pop() || null;
 
             return { psychologists: psychologistsWithId, lastKey: newLastKey };
