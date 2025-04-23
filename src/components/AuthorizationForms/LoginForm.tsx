@@ -66,7 +66,7 @@ export default function LoginForm() {
                     uid: user.uid,
                 }),
             );
-            dispatch(fetchFavourites(user.uid));
+            dispatch(fetchFavourites({ uid: user.uid, lastKey: null }));
             reset();
             dispatch(closeModal());
         } catch (error) {
