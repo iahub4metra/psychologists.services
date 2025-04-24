@@ -5,6 +5,7 @@ import { AppDispatch } from '../../redux/store';
 import PsychologistsList from '../../components/PsychologistsList/PsychologistsList';
 import { selectUser } from '../../redux/auth/selectors';
 import { fetchFavourites } from '../../redux/favourites/operations';
+import Filters from '../../components/Filters/Filters';
 
 export default function Psychologists() {
     const dispatch = useDispatch<AppDispatch>();
@@ -21,6 +22,7 @@ export default function Psychologists() {
 
     return (
         <div className="max-w-[1440px] w-auto mx-auto px-container">
+            <Filters />
             <PsychologistsList />
         </div>
     );

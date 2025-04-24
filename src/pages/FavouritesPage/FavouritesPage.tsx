@@ -5,6 +5,7 @@ import { selectUser } from '../../redux/auth/selectors';
 import { useEffect } from 'react';
 import { fetchFavourites } from '../../redux/favourites/operations';
 import FavouritesList from '../../components/FavouritesList/FavouritesList';
+import Filters from '../../components/Filters/Filters';
 
 export default function FavouritesPage() {
     const dispatch: AppDispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function FavouritesPage() {
     }, [dispatch, user, favPsychologists]);
     return (
         <div className="max-w-[1440px] w-auto mx-auto px-container">
+            <Filters />
             <FavouritesList />
         </div>
     );

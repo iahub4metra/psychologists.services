@@ -8,11 +8,55 @@ import {
     selectFavPsychologists,
     selectLastKeyFav,
 } from '../../redux/favourites/selectors';
+import { Filter } from '../../redux/psychologists/slice';
+import { selectFilter } from '../../redux/psychologists/selectors';
 
 export default function FavouritesList() {
     const dispatch: AppDispatch = useDispatch();
     const favPsychologists = useSelector(selectFavPsychologists);
+    const filter = useSelector(selectFilter);
     const lastKey = useSelector(selectLastKeyFav);
+
+    const filterFavPsychologists = (
+        psychologists: Psychologist[],
+        filter: Filter,
+    ) => {
+        switch (filter) {
+            case 'all':
+                return psychologists;
+            case 'a-z':
+                return psychologists
+                    .slice()
+                    .sort((a, b) => a.name.localeCompare(b.name));
+            case 'z-a':
+                return psychologists
+                    .slice()
+                    .sort((a, b) => b.name.localeCompare(a.name));
+            case 'popular':
+                return psychologists
+                    .slice()
+                    .sort((a, b) => b.rating - a.rating);
+            case 'not-popular':
+                return psychologists
+                    .slice()
+                    .sort((a, b) => a.rating - b.rating);
+            case 'higher-price':
+                return psychologists
+                    .slice()
+                    .sort((a, b) => b.price_per_hour - a.price_per_hour);
+            case 'lower-price':
+                return psychologists
+                    .slice()
+                    .sort((a, b) => a.price_per_hour - b.price_per_hour);
+            default:
+                return psychologists;
+        }
+    };
+
+    const filteredFavPsychologists = filterFavPsychologists(
+        favPsychologists,
+        filter,
+    );
 
     const loadMore = () => {
         if (lastKey) {
@@ -23,16 +67,18 @@ export default function FavouritesList() {
     return (
         <>
             <ul className={`flex gap-8 flex-col ${s.psychologistsList}`}>
-                {favPsychologists.map((psychologist: Psychologist, index) => {
-                    return (
-                        <li key={index} className="@container/card">
-                            <PsychologistCard
-                                psychologist={psychologist}
-                                id={index}
-                            />
-                        </li>
-                    );
-                })}
+                {filteredFavPsychologists.map(
+                    (psychologist: Psychologist, index) => {
+                        return (
+                            <li key={index} className="@container/card">
+                                <PsychologistCard
+                                    psychologist={psychologist}
+                                    id={index}
+                                />
+                            </li>
+                        );
+                    },
+                )}
             </ul>
             {lastKey && (
                 <button className={s.btnLoadMore} onClick={loadMore}>
