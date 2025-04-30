@@ -17,6 +17,7 @@ import {
     addFavPsychologistToState,
     removeFavPsychologistToState,
 } from '../../redux/favourites/slice';
+import { openModal, setAppointmentPsychologist } from '../../redux/modal/slice';
 
 export interface PsychologistCardProps {
     psychologist: Psychologist;
@@ -67,6 +68,11 @@ export default function PsychologistCard({
         }
     };
 
+    const handleAppointment = () => {
+        dispatch(setAppointmentPsychologist(psychologist));
+        dispatch(openModal('appointment'));
+    };
+
     return (
         <div
             className=" rounded-[12px] p-[24px] flex gap-6 @max-[500px]:flex-col"
@@ -101,7 +107,7 @@ export default function PsychologistCard({
                                     <span>
                                         <IoMdStar className="fill-[#FFC531] mr-[8px] w-[16px]" />
                                     </span>
-                                    Rating: {psychologist.rating}
+                                    Rating: {psychologist.rating.toFixed(1)}
                                 </p>
                             </li>
                             <li className="text-[#191A1533]">|</li>
@@ -191,7 +197,7 @@ export default function PsychologistCard({
                                                     <span>
                                                         <IoMdStar className="fill-[#FFC531] mr-[8px] w-[16px]" />
                                                     </span>
-                                                    {review.rating}
+                                                    {review.rating.toFixed(1)}
                                                 </p>
                                             </div>
                                         </div>
@@ -203,7 +209,10 @@ export default function PsychologistCard({
                             })}
                         </ul>
 
-                        <button className={s.btnAppointment}>
+                        <button
+                            className={s.btnAppointment}
+                            onClick={() => handleAppointment()}
+                        >
                             Make an appointment
                         </button>
                     </>

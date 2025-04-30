@@ -1,7 +1,10 @@
 import { ReactNode } from 'react';
 import ReactModal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsModalOpen } from '../../redux/modal/selectors';
+import {
+    selectIsModalOpen,
+    selectModalType,
+} from '../../redux/modal/selectors';
 import { AppDispatch } from '../../redux/store';
 import { closeModal } from '../../redux/modal/slice';
 import { IoIosClose } from 'react-icons/io';
@@ -13,6 +16,7 @@ interface ModalProps {
 
 export default function Modal({ children }: ModalProps) {
     const isModalOpen = useSelector(selectIsModalOpen);
+    const modalType = useSelector(selectModalType);
     const dispatch: AppDispatch = useDispatch();
 
     const handleClose = () => dispatch(closeModal());
@@ -21,14 +25,17 @@ export default function Modal({ children }: ModalProps) {
         <ReactModal
             isOpen={isModalOpen}
             onRequestClose={handleClose}
+            overlayClassName={s.overlayModal}
             style={{
-                overlay: { backgroundColor: '#191A1599' },
                 content: {
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%) scale(1)',
+                    transform: 'translate(-50%, -50%) scale(0.95)',
                     display: 'flex',
+                    maxWidth: `min(calc(100vw - 10vw), ${
+                        modalType === 'appointment' ? '600px' : '566px'
+                    })`,
                 },
             }}
             className={`w-full bg-[#FBFBFB] rounded-[30px] ${s.modal}`}

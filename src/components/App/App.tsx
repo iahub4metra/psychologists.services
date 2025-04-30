@@ -2,7 +2,11 @@ import Layout from '../Layout/Layout';
 import ReactModal from 'react-modal';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectModalType } from '../../redux/modal/selectors';
+import {
+    selectAppointmentPsychologist,
+    selectIsModalOpen,
+    selectModalType,
+} from '../../redux/modal/selectors';
 import LoginForm from '../AuthorizationForms/LoginForm';
 import RegisterForm from '../AuthorizationForms/RegisterForm';
 import { AppDispatch } from '../../redux/store';
@@ -10,11 +14,15 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../utils/firebase-config';
 import { logout, setUser } from '../../redux/auth/slice';
+import AppointmentForm from '../AppointmentForm/AppointmentForm';
+import ModalManager from '../Modal/ModalManager';
 
 ReactModal.setAppElement('#root');
 
 export default function App() {
     const modalType = useSelector(selectModalType);
+    const isModalOpen = useSelector(selectIsModalOpen);
+    const appointmentPsychologist = useSelector(selectAppointmentPsychologist);
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
@@ -39,10 +47,14 @@ export default function App() {
     }, [dispatch]);
     return (
         <div>
+            <ModalManager />
             <Layout />
             <Modal>
-                {modalType === 'login' && <LoginForm />}
-                {modalType === 'register' && <RegisterForm />}
+                {isModalOpen && modalType === 'login' && <LoginForm />}
+                {isModalOpen && modalType === 'register' && <RegisterForm />}
+                {isModalOpen && modalType === 'appointment' && (
+                    <AppointmentForm psychologist={appointmentPsychologist} />
+                )}
             </Modal>
         </div>
     );

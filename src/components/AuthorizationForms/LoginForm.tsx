@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
     FormControl,
+    FormHelperText,
     IconButton,
     InputAdornment,
     InputLabel,
@@ -91,6 +92,8 @@ export default function LoginForm() {
                     <TextField
                         {...register('email')}
                         variant="outlined"
+                        error={Boolean(errors.email?.message)}
+                        helperText={errors.email?.message}
                         label="Email"
                         sx={{
                             maxWidth: '438px',
@@ -105,10 +108,10 @@ export default function LoginForm() {
                             },
                         }}
                     />
-                    <p>{errors.email?.message}</p>
                 </div>
                 <div className="mb-[40px]">
                     <FormControl
+                        error={Boolean(errors.email?.message)}
                         sx={{
                             maxWidth: '438px',
                             width: '100%',
@@ -153,8 +156,12 @@ export default function LoginForm() {
                             }
                             label="Password"
                         />
+                        {errors.password?.message && (
+                            <FormHelperText>
+                                {errors.password.message}
+                            </FormHelperText>
+                        )}
                     </FormControl>
-                    <p>{errors.password?.message}</p>
                 </div>
                 <button type="submit" className={s.btnSubmit}>
                     Log in
