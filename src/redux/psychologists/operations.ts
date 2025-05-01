@@ -7,7 +7,7 @@ import {
     limitToFirst,
     get,
 } from 'firebase/database';
-import { database } from '../../utils/firebase-config'; // імпортуємо нашу базу даних
+import { database } from '../../utils/firebase-config';
 import { Psychologist } from '../../components/App/Types';
 
 interface FetchResponse {
@@ -56,7 +56,13 @@ export const getPsychologists = createAsyncThunk<FetchResponse, string | null>(
 
             return { psychologists: psychologistsWithId, lastKey: newLastKey };
         } catch (error) {
-            return thunkAPI.rejectWithValue(error);
+            let message = 'Unknown error';
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
+            return thunkAPI.rejectWithValue(message);
         }
     },
 );

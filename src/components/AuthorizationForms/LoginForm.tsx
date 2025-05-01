@@ -18,7 +18,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../utils/firebase-config';
 import { AppDispatch } from '../../redux/store';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/auth/slice';
+import { setError, setUser } from '../../redux/auth/slice';
 import { closeModal } from '../../redux/modal/slice';
 import { fetchFavourites } from '../../redux/favourites/operations';
 
@@ -67,11 +67,12 @@ export default function LoginForm() {
                     uid: user.uid,
                 }),
             );
-            dispatch(fetchFavourites({ uid: user.uid, lastKey: null }));
+            dispatch(fetchFavourites({ uid: user.uid, lastTimeStamp: null }));
+        } catch {
+            dispatch(setError(true));
+        } finally {
             reset();
             dispatch(closeModal());
-        } catch (error) {
-            console.log(error);
         }
     };
 

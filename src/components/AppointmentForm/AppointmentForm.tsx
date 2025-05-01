@@ -7,6 +7,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TextField } from '@mui/material';
 import './TimePicker.css';
+import { AppDispatch } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { closeModal } from '../../redux/modal/slice';
 
 interface AppointmentFormProps {
     psychologist: Psychologist | null;
@@ -35,9 +38,14 @@ export default function AppointmentForm({
         defaultValues: {},
     });
 
+    const dispatch: AppDispatch = useDispatch();
+
     const onSubmit = (data: FormValues) => {
-        console.log(data);
+        console.log(
+            `name: ${data.name}; email: ${data.email}; phone: ${data.phone}; time: ${data.time}; comment: ${data.comment}`,
+        );
         reset();
+        dispatch(closeModal());
     };
 
     return (

@@ -10,11 +10,13 @@ export type User = {
 interface InitialValue {
     user: User | null;
     isLoggedIn: boolean;
+    error: boolean;
 }
 
 const initialState: InitialValue = {
     user: null,
     isLoggedIn: false,
+    error: false,
 };
 
 const authSlice = createSlice({
@@ -29,9 +31,12 @@ const authSlice = createSlice({
             state.user = null;
             state.isLoggedIn = false;
         },
+        setError: (state, action) => {
+            state.error = action.payload;
+        },
     },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, logout, setError } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

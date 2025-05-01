@@ -62,9 +62,10 @@ const psychologistsSlice = createSlice({
                 state.hasMoreNormal = action.payload.psychologists.length === 3;
                 state.lastKey = action.payload.lastKey;
             })
-            .addCase(getPsychologists.rejected, (state, action) => {
+            .addCase(getPsychologists.rejected, (state) => {
                 state.loading = false;
-                state.error = action.payload as string;
+                state.error =
+                    'Failed to load psychologists. Please try again later.';
             });
     },
 });

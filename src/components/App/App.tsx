@@ -13,9 +13,11 @@ import { AppDispatch } from '../../redux/store';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../utils/firebase-config';
-import { logout, setUser } from '../../redux/auth/slice';
+import { logout, setError, setUser } from '../../redux/auth/slice';
 import AppointmentForm from '../AppointmentForm/AppointmentForm';
 import ModalManager from '../Modal/ModalManager';
+import { selectError } from '../../redux/auth/selectors';
+import { Alert, Snackbar, SnackbarCloseReason } from '@mui/material';
 
 ReactModal.setAppElement('#root');
 
@@ -24,6 +26,14 @@ export default function App() {
     const isModalOpen = useSelector(selectIsModalOpen);
     const appointmentPsychologist = useSelector(selectAppointmentPsychologist);
     const dispatch: AppDispatch = useDispatch();
+    const error = useSelector(selectError);
+
+    const handleClose = (_: unknown, reason?: SnackbarCloseReason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        dispatch(setError(false));
+    };
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -56,6 +66,20 @@ export default function App() {
                     <AppointmentForm psychologist={appointmentPsychologist} />
                 )}
             </Modal>
+            <Snackbar
+                open={error}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    Something went wrong. Try reloading the page.
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

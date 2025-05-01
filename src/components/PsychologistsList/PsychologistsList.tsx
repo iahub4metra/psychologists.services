@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    selectError,
     selectFilter,
     selectHasMoreNormal,
     selectLastKey,
@@ -20,6 +21,7 @@ export default function PsychologistsList() {
     const loading = useSelector(selectLoading);
     const filter = useSelector(selectFilter);
     const hasMore = useSelector(selectHasMoreNormal);
+    const error = useSelector(selectError);
     const filterPsychologists = (
         psychologists: Psychologist[],
         filter: Filter,
@@ -65,28 +67,41 @@ export default function PsychologistsList() {
 
     return (
         <>
-            <ul className={`flex gap-8 flex-col ${s.psychologistsList}`}>
-                {filteredPsychologists.map(
-                    (psychologist: Psychologist, index) => {
-                        return (
-                            <li key={index} className="@container/card">
-                                <PsychologistCard
-                                    psychologist={psychologist}
-                                    id={index}
-                                />
-                            </li>
-                        );
-                    },
-                )}
-            </ul>
-            {loading ? (
-                <p>Loading...</p>
+            {error ? (
+                <p className="text-[18px] text-[#d32f2f] text-center">
+                    {error}
+                </p>
             ) : (
-                hasMore && (
-                    <button className={s.btnLoadMore} onClick={loadMore}>
-                        Load More
-                    </button>
-                )
+                <>
+                    <ul
+                        className={`flex gap-8 flex-col ${s.psychologistsList}`}
+                    >
+                        {filteredPsychologists.map(
+                            (psychologist: Psychologist, index) => {
+                                return (
+                                    <li key={index} className="@container/card">
+                                        <PsychologistCard
+                                            psychologist={psychologist}
+                                            id={index}
+                                        />
+                                    </li>
+                                );
+                            },
+                        )}
+                    </ul>
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        hasMore && (
+                            <button
+                                className={s.btnLoadMore}
+                                onClick={loadMore}
+                            >
+                                Load More
+                            </button>
+                        )
+                    )}
+                </>
             )}
         </>
     );

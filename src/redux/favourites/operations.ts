@@ -40,7 +40,13 @@ export const addFavouriteToDb = createAsyncThunk<void, FavouritePayload>(
             );
             await set(favRef, { psychologist, addedAt: Date.now() });
         } catch (error) {
-            return thunkAPI.rejectWithValue(error);
+            let message = 'Unknown error';
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
+            return thunkAPI.rejectWithValue(message);
         }
     },
 );
@@ -55,7 +61,13 @@ export const removeFavouriteToDb = createAsyncThunk<void, FavouritePayload>(
             );
             await remove(favRef);
         } catch (error) {
-            return thunkAPI.rejectWithValue(error);
+            let message = 'Unknown error';
+
+            if (error instanceof Error) {
+                message = error.message;
+            }
+
+            return thunkAPI.rejectWithValue(message);
         }
     },
 );

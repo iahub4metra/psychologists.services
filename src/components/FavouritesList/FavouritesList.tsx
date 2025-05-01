@@ -5,6 +5,7 @@ import { AppDispatch } from '../../redux/store';
 import s from './FavouritesList.module.css';
 import {
     selectFavPsychologists,
+    selectFetchError,
     selectHasMore,
     selectLastTimeStampFav,
 } from '../../redux/favourites/selectors';
@@ -20,6 +21,7 @@ export default function FavouritesList() {
     const lastTimeStamp = useSelector(selectLastTimeStampFav);
     const hasMore = useSelector(selectHasMore);
     const user = useSelector(selectUser);
+    const fetchError = useSelector(selectFetchError);
 
     const filterFavPsychologists = (
         psychologists: Psychologist[],
@@ -70,24 +72,40 @@ export default function FavouritesList() {
 
     return (
         <>
-            <ul className={`flex gap-8 flex-col ${s.psychologistsList}`}>
-                {filteredFavPsychologists.map(
-                    (psychologist: Psychologist, index) => {
-                        return (
-                            <li key={index} className="@container/card">
-                                <PsychologistCard
-                                    psychologist={psychologist}
-                                    id={index}
-                                />
-                            </li>
-                        );
-                    },
-                )}
-            </ul>
-            {hasMore && (
-                <button className={s.btnLoadMore} onClick={loadMore}>
-                    Load More
-                </button>
+            {fetchError ? (
+                <p className="text-[18px] text-[#d32f2f] text-center">
+                    {typeof fetchError === 'string'
+                        ? fetchError
+                        : 'Failed to load favourites'}
+                </p>
+            ) : filteredFavPsychologists.length === 0 ? (
+                <p className="text-[18px] text-center">
+                    You don't have any favourite psychologists yet.
+                </p>
+            ) : (
+                <>
+                    <ul
+                        className={`flex gap-8 flex-col ${s.psychologistsList}`}
+                    >
+                        {filteredFavPsychologists.map(
+                            (psychologist: Psychologist, index) => {
+                                return (
+                                    <li key={index} className="@container/card">
+                                        <PsychologistCard
+                                            psychologist={psychologist}
+                                            id={index}
+                                        />
+                                    </li>
+                                );
+                            },
+                        )}
+                    </ul>
+                    {hasMore && (
+                        <button className={s.btnLoadMore} onClick={loadMore}>
+                            Load More
+                        </button>
+                    )}
+                </>
             )}
         </>
     );

@@ -1,13 +1,16 @@
 import { IoMdStar } from 'react-icons/io';
 import { HiOutlineHeart } from 'react-icons/hi2';
 import clsx from 'clsx';
-import { Psychologist } from '../App/Types';
-import s from './PsychologistCard.module.css';
+import { useEffect, useState } from 'react';
+import { Alert, Snackbar, SnackbarCloseReason } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { selectOpenCardId } from '../../redux/psychologists/selectors';
 import { toggleReviews } from '../../redux/psychologists/slice';
-import { selectFavPsychologists } from '../../redux/favourites/selectors';
+import {
+    selectErrorFav,
+    selectFavPsychologists,
+} from '../../redux/favourites/selectors';
 import {
     addFavouriteToDb,
     removeFavouriteToDb,
@@ -18,7 +21,8 @@ import {
     removeFavPsychologistToState,
 } from '../../redux/favourites/slice';
 import { openModal, setAppointmentPsychologist } from '../../redux/modal/slice';
-
+import { Psychologist } from '../App/Types';
+import s from './PsychologistCard.module.css';
 export interface PsychologistCardProps {
     psychologist: Psychologist;
     id: number;
@@ -33,38 +37,66 @@ export default function PsychologistCard({
     const user = useSelector(selectUser);
     const favouritePsychologists = useSelector(selectFavPsychologists);
     const isReviewsOpen = openCardId === id;
+    const [snackBarIsOpen, setSnackBarIsOpen] = useState(false);
+
+    const errorFav = useSelector(selectErrorFav);
+    const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+
+    useEffect(() => {
+        if (errorFav) {
+            setErrorSnackbarOpen(true);
+        }
+    }, [errorFav]);
+
+    const handleErrorClose = () => {
+        setErrorSnackbarOpen(false);
+    };
+
+    const handleClose = (_: unknown, reason?: SnackbarCloseReason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackBarIsOpen(false);
+    };
 
     const isFav = favouritePsychologists.some(
         (item) => item.id === psychologist.id,
     );
-
+    const [localIsFav, setLocalIsFav] = useState(isFav);
+    const [favError, setFavError] = useState(false);
     const handleToggleReviews = () => {
         dispatch(toggleReviews(id));
     };
 
-    const handleAddFav = (id: string) => {
-        if (user) {
-            const index = favouritePsychologists.findIndex(
-                (psychologist) => psychologist.id === id,
-            );
+    const handleAddFav = async (id: string) => {
+        if (!user) {
+            setSnackBarIsOpen(true);
+            return;
+        }
+
+        setFavError(false);
+
+        try {
+            const index = favouritePsychologists.findIndex((p) => p.id === id);
 
             if (index >= 0) {
-                dispatch(
-                    removeFavouriteToDb({
-                        uid: user.uid,
-                        psychologist: psychologist,
-                    }),
-                );
+                await dispatch(
+                    removeFavouriteToDb({ uid: user.uid, psychologist }),
+                ).unwrap();
+
                 dispatch(removeFavPsychologistToState(psychologist.id));
+                setLocalIsFav(false);
             } else {
-                dispatch(
-                    addFavouriteToDb({
-                        uid: user.uid,
-                        psychologist: psychologist,
-                    }),
-                );
+                await dispatch(
+                    addFavouriteToDb({ uid: user.uid, psychologist }),
+                ).unwrap();
+
                 dispatch(addFavPsychologistToState(psychologist));
+                setLocalIsFav(true);
             }
+        } catch {
+            setFavError(true);
         }
     };
 
@@ -72,6 +104,12 @@ export default function PsychologistCard({
         dispatch(setAppointmentPsychologist(psychologist));
         dispatch(openModal('appointment'));
     };
+    useEffect(() => {
+        const isFavourite = favouritePsychologists.some(
+            (item) => item.id === psychologist.id,
+        );
+        setLocalIsFav(isFavourite);
+    }, [favouritePsychologists, psychologist.id]);
 
     return (
         <div
@@ -126,7 +164,9 @@ export default function PsychologistCard({
                         >
                             <HiOutlineHeart
                                 className={`w-[26px] h-[26px] ${clsx(
-                                    isFav && `stroke-[#54BE96] fill-[#54BE96]`,
+                                    localIsFav &&
+                                        !favError &&
+                                        `stroke-[#54BE96] fill-[#54BE96]`,
                                 )}`}
                             />
                         </button>
@@ -226,6 +266,37 @@ export default function PsychologistCard({
                         Read more
                     </button>
                 )}
+
+                <Snackbar
+                    open={snackBarIsOpen}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                >
+                    <Alert
+                        onClose={handleClose}
+                        severity="warning"
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                    >
+                        This feature is available only to authorised users!
+                    </Alert>
+                </Snackbar>
+                <Snackbar
+                    open={errorSnackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={handleErrorClose}
+                >
+                    <Alert
+                        onClose={handleErrorClose}
+                        severity="error"
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                    >
+                        {typeof errorFav === 'string'
+                            ? errorFav
+                            : 'Something went wrong. Please try again later.'}
+                    </Alert>
+                </Snackbar>
             </div>
         </div>
     );

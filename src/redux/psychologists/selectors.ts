@@ -9,3 +9,4 @@ export const selectOpenCardId = (state: RootState) =>
 export const selectFilter = (state: RootState) => state.psychologists.filter;
 export const selectHasMoreNormal = (state: RootState) =>
     state.psychologists.hasMoreNormal;
+export const selectError = (state: RootState) => state.psychologists.error;

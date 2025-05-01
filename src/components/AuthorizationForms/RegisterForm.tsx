@@ -18,7 +18,7 @@ import { AppDispatch } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../utils/firebase-config';
-import { setUser } from '../../redux/auth/slice';
+import { setError, setUser } from '../../redux/auth/slice';
 import { closeModal } from '../../redux/modal/slice';
 
 interface FormValues {
@@ -70,10 +70,11 @@ export default function RegisterForm() {
                     uid: user.uid,
                 }),
             );
+        } catch {
+            dispatch(setError(true));
+        } finally {
             reset();
             dispatch(closeModal());
-        } catch (error) {
-            console.error('Registration error:', error);
         }
     };
 
