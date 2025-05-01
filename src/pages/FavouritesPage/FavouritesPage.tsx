@@ -14,7 +14,7 @@ export default function FavouritesPage() {
 
     useEffect(() => {
         if (favPsychologists.length === 0) {
-            dispatch(fetchFavourites({ uid: user!.uid, lastKey: null }));
+            dispatch(fetchFavourites({ uid: user!.uid, lastTimeStamp: null }));
         }
     }, [dispatch, user, favPsychologists]);
     return (
