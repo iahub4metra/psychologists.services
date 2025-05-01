@@ -2,20 +2,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import PsychologistCard from '../PsychologistCard/PsychologistCard';
 import { Psychologist } from '../App/Types';
 import { AppDispatch } from '../../redux/store';
-import { getPsychologists } from '../../redux/psychologists/operations';
 import s from './FavouritesList.module.css';
 import {
     selectFavPsychologists,
-    selectLastKeyFav,
+    selectHasMore,
+    selectLastTimeStampFav,
 } from '../../redux/favourites/selectors';
 import { Filter } from '../../redux/psychologists/slice';
 import { selectFilter } from '../../redux/psychologists/selectors';
+import { fetchFavourites } from '../../redux/favourites/operations';
+import { selectUser } from '../../redux/auth/selectors';
 
 export default function FavouritesList() {
     const dispatch: AppDispatch = useDispatch();
     const favPsychologists = useSelector(selectFavPsychologists);
     const filter = useSelector(selectFilter);
-    const lastKey = useSelector(selectLastKeyFav);
+    const lastTimeStamp = useSelector(selectLastTimeStampFav);
+    const hasMore = useSelector(selectHasMore);
+    const user = useSelector(selectUser);
 
     const filterFavPsychologists = (
         psychologists: Psychologist[],
@@ -59,8 +63,8 @@ export default function FavouritesList() {
     );
 
     const loadMore = () => {
-        if (lastKey) {
-            dispatch(getPsychologists(lastKey));
+        if (lastTimeStamp) {
+            dispatch(fetchFavourites({ uid: user!.uid, lastTimeStamp }));
         }
     };
 
@@ -80,7 +84,7 @@ export default function FavouritesList() {
                     },
                 )}
             </ul>
-            {lastKey && (
+            {hasMore && (
                 <button className={s.btnLoadMore} onClick={loadMore}>
                     Load More
                 </button>

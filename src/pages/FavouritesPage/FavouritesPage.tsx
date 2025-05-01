@@ -13,10 +13,8 @@ export default function FavouritesPage() {
     const user = useSelector(selectUser);
 
     useEffect(() => {
-        if (user) {
-            if (favPsychologists.length === 0) {
-                dispatch(fetchFavourites({ uid: user.uid, lastKey: null }));
-            }
+        if (favPsychologists.length === 0) {
+            dispatch(fetchFavourites({ uid: user!.uid, lastKey: null }));
         }
     }, [dispatch, user, favPsychologists]);
     return (

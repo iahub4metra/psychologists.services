@@ -7,3 +7,5 @@ export const selectLoading = (state: RootState) => state.psychologists.loading;
 export const selectOpenCardId = (state: RootState) =>
     state.psychologists.openCardId;
 export const selectFilter = (state: RootState) => state.psychologists.filter;
+export const selectHasMoreNormal = (state: RootState) =>
+    state.psychologists.hasMoreNormal;

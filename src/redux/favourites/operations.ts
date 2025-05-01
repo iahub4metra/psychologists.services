@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
     get,
     limitToFirst,
-    orderByKey,
+    orderByChild,
     query,
     ref,
     remove,
@@ -19,12 +19,15 @@ interface FavouritePayload {
 
 interface FetchPayload {
     uid: string;
-    lastKey?: string | null;
+    lastTimeStamp?: string | null;
 }
 
 interface FetchResponse {
-    favourites: Psychologist[];
-    lastKey: string | null;
+    favourites: {
+        addedAt: string;
+        psychologist: Psychologist;
+    }[];
+    lastTimeStamp: string | null;
 }
 
 export const addFavouriteToDb = createAsyncThunk<void, FavouritePayload>(
@@ -35,7 +38,7 @@ export const addFavouriteToDb = createAsyncThunk<void, FavouritePayload>(
                 database,
                 `favourites/${uid}/${psychologist.id}`,
             );
-            await set(favRef, psychologist);
+            await set(favRef, { psychologist, addedAt: Date.now() });
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }
@@ -57,37 +60,50 @@ export const removeFavouriteToDb = createAsyncThunk<void, FavouritePayload>(
     },
 );
 
-export const fetchFavourites = createAsyncThunk<FetchResponse, FetchPayload>(
-    'favourites/fetch',
-    async ({ uid, lastKey }, thunkAPI) => {
-        try {
-            let favRef = query(
+export const fetchFavourites = createAsyncThunk<
+    FetchResponse,
+    FetchPayload,
+    { rejectValue: string }
+>('favourites/fetch', async ({ uid, lastTimeStamp }, thunkAPI) => {
+    try {
+        let favQuery = query(
+            ref(database, `favourites/${uid}`),
+            orderByChild('addedAt'),
+            limitToFirst(3),
+        );
+
+        if (lastTimeStamp) {
+            favQuery = query(
                 ref(database, `favourites/${uid}`),
-                orderByKey(),
+                orderByChild('addedAt'),
+                startAfter(Number(lastTimeStamp)),
                 limitToFirst(3),
             );
-
-            if (lastKey) {
-                favRef = query(
-                    ref(database, `favourites/${uid}`),
-                    orderByKey(),
-                    startAfter(lastKey),
-                    limitToFirst(3),
-                );
-            }
-
-            const snapshot = await get(favRef);
-
-            if (!snapshot.exists()) {
-                return { favourites: [], lastKey: null };
-            }
-
-            const data = snapshot.val();
-            const favourites = Object.values(data) as Psychologist[];
-            const newLastKey = Object.keys(data).pop() || null;
-            return { favourites, lastKey: newLastKey };
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error);
         }
-    },
-);
+
+        const snapshot = await get(favQuery);
+
+        if (!snapshot.exists()) {
+            return { favourites: [], lastTimeStamp: null };
+        }
+
+        const data = snapshot.val();
+
+        const values = Object.values(data) as {
+            psychologist: Psychologist;
+            addedAt: number;
+        }[];
+
+        const last = values[values.length - 1]?.addedAt || null;
+
+        return {
+            favourites: values.map((entry) => ({
+                psychologist: entry.psychologist,
+                addedAt: entry.addedAt.toString(),
+            })),
+            lastTimeStamp: last?.toString() || null,
+        };
+    } catch {
+        return thunkAPI.rejectWithValue('Failed to fetch favourites');
+    }
+});

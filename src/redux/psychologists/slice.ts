@@ -18,6 +18,7 @@ interface PsychologistsState {
     error: string | null;
     openCardId: number | null;
     filter: Filter;
+    hasMoreNormal: boolean | null;
 }
 
 const initialState: PsychologistsState = {
@@ -27,6 +28,7 @@ const initialState: PsychologistsState = {
     error: null,
     openCardId: null,
     filter: 'all',
+    hasMoreNormal: null,
 };
 
 const psychologistsSlice = createSlice({
@@ -57,6 +59,7 @@ const psychologistsSlice = createSlice({
                         !state.data.find((existing) => existing.id === card.id),
                 );
                 state.data = [...state.data, ...checkedData];
+                state.hasMoreNormal = action.payload.psychologists.length === 3;
                 state.lastKey = action.payload.lastKey;
             })
             .addCase(getPsychologists.rejected, (state, action) => {

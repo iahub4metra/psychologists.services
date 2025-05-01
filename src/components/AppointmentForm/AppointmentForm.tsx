@@ -45,7 +45,7 @@ export default function AppointmentForm({
             <h3 className={s.title}>
                 Make an appointment with a psychologists
             </h3>
-            <p className="text-[#191A1580] leading-normal">
+            <p className="text-[#191A1580] leading-normal max-[476px]:text-[12px]">
                 You are on the verge of changing your life for the better. Fill
                 out the short form below to book your personal appointment with
                 a professional psychologist. We guarantee confidentiality and

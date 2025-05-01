@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectFilter,
+    selectHasMoreNormal,
     selectLastKey,
     selectLoading,
     selectPsychologists,
@@ -18,7 +19,7 @@ export default function PsychologistsList() {
     const lastKey = useSelector(selectLastKey);
     const loading = useSelector(selectLoading);
     const filter = useSelector(selectFilter);
-
+    const hasMore = useSelector(selectHasMoreNormal);
     const filterPsychologists = (
         psychologists: Psychologist[],
         filter: Filter,
@@ -81,7 +82,7 @@ export default function PsychologistsList() {
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                lastKey && (
+                hasMore && (
                     <button className={s.btnLoadMore} onClick={loadMore}>
                         Load More
                     </button>

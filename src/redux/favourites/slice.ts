@@ -4,12 +4,14 @@ import { fetchFavourites } from './operations';
 
 interface InitialValue {
     items: Psychologist[];
-    lastKeyFav: string | null;
+    lastTimeStampFav: string | null;
+    hasMore: boolean | null;
 }
 
 const initialState: InitialValue = {
     items: [],
-    lastKeyFav: null,
+    lastTimeStampFav: null,
+    hasMore: null,
 };
 
 const favouritesSlice = createSlice({
@@ -31,8 +33,19 @@ const favouritesSlice = createSlice({
     },
     extraReducers(builder) {
         builder.addCase(fetchFavourites.fulfilled, (state, action) => {
-            state.items = [...state.items, ...action.payload.favourites];
-            state.lastKeyFav = action.payload.lastKey;
+            const checkedData = action.payload.favourites
+                .filter(
+                    (card) =>
+                        !state.items.find(
+                            (existing) => existing.id === card.psychologist.id,
+                        ),
+                )
+                .map((card) => card.psychologist);
+            state.items = [...state.items, ...checkedData];
+            console.log(checkedData);
+
+            state.hasMore = action.payload.favourites.length === 3;
+            state.lastTimeStampFav = action.payload.lastTimeStamp;
         });
     },
 });

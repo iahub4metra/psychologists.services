@@ -126,7 +126,7 @@ export default function PsychologistCard({
                         >
                             <HiOutlineHeart
                                 className={`w-[26px] h-[26px] ${clsx(
-                                    isFav && `stroke-red-600 fill-red-600`,
+                                    isFav && `stroke-[#54BE96] fill-[#54BE96]`,
                                 )}`}
                             />
                         </button>
