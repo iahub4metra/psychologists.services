@@ -12,6 +12,7 @@ interface InitialValue {
     hasMore: boolean | null;
     errorFav: string | null;
     fetchError: string | null;
+    loadingFav: boolean;
 }
 
 const initialState: InitialValue = {
@@ -20,6 +21,7 @@ const initialState: InitialValue = {
     hasMore: null,
     errorFav: null,
     fetchError: null,
+    loadingFav: false,
 };
 
 const favouritesSlice = createSlice({
@@ -41,7 +43,11 @@ const favouritesSlice = createSlice({
     },
     extraReducers(builder) {
         builder
+            .addCase(fetchFavourites.pending, (state) => {
+                state.loadingFav = true;
+            })
             .addCase(fetchFavourites.fulfilled, (state, action) => {
+                state.loadingFav = false;
                 const checkedData = action.payload.favourites
                     .filter(
                         (card) =>
@@ -56,6 +62,7 @@ const favouritesSlice = createSlice({
                 state.lastTimeStampFav = action.payload.lastTimeStamp;
             })
             .addCase(fetchFavourites.rejected, (state) => {
+                state.loadingFav = false;
                 state.fetchError = 'Failed to load favourites';
             })
             .addCase(addFavouriteToDb.rejected, (state) => {
