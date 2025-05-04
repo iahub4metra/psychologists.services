@@ -103,6 +103,7 @@ export default function AppointmentForm({
                             {...register('phone')}
                             variant="outlined"
                             label="Phone"
+                            type="tel"
                             error={Boolean(errors.phone?.message)}
                             helperText={errors.phone?.message}
                             sx={{
@@ -151,6 +152,7 @@ export default function AppointmentForm({
                         {...register('email')}
                         variant="outlined"
                         label="Email"
+                        type="email"
                         error={Boolean(errors.email?.message)}
                         helperText={errors.email?.message}
                         sx={{

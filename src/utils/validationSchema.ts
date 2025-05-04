@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 
+const phoneRegExp = /^\+?[0-9\s\-()]{7,}$/;
+
 export const loginSchema = yup.object({
     email: yup.string().email('Invalid email').required('Email is required'),
     password: yup
@@ -20,7 +22,10 @@ export const registerSchema = yup.object({
 export const appointmentSchema = yup.object({
     name: yup.string().min(3).required(),
     email: yup.string().email('Invalid email').required('Email is required'),
-    phone: yup.string().max(15, 'Maximum 15 characters').required(),
+    phone: yup
+        .string()
+        .matches(phoneRegExp, 'Enter a valid phone number')
+        .required(),
     time: yup.date().required(),
     comment: yup.string().required(),
 });
