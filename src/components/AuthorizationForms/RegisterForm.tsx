@@ -118,6 +118,7 @@ export default function RegisterForm() {
                         {...register('email')}
                         variant="outlined"
                         label="Email"
+                        type="email"
                         error={Boolean(errors.email?.message)}
                         helperText={errors.email?.message}
                         sx={{

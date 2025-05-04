@@ -93,6 +93,7 @@ export default function LoginForm() {
                     <TextField
                         {...register('email')}
                         variant="outlined"
+                        type="email"
                         error={Boolean(errors.email?.message)}
                         helperText={errors.email?.message}
                         label="Email"
