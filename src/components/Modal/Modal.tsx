@@ -31,7 +31,6 @@ export default function Modal({ children }: ModalProps) {
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    transform: 'translate(-50%, -50%) scale(0.95)',
                     display: 'flex',
                     maxWidth: `min(calc(100vw - 10vw), ${
                         modalType === 'appointment' ? '600px' : '566px'

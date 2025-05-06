@@ -1,15 +1,27 @@
 .modal {
     padding: min(9vw, 64px);
+    transform: translate(-50%, -50%) scale(0.95);
 }
 
 .overlayModal {
     position: fixed;
     inset: 0px;
     background-color: rgba(25, 26, 21, 0.6);
+    overflow-y: scroll;
+}
+
+.overlayModal::-webkit-scrollbar {
+    display: none;
 }
 
 @media screen and (max-width: 655px) {
     .modal {
         padding: min(6vw, 64px);
+    }
+}
+
+@media screen and (max-height: 820px) {
+    .modal {
+        transform: translate(-50%, -25%) scale(0.95);
     }
 }
