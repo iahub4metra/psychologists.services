@@ -60,8 +60,6 @@ const favouritesSlice = createSlice({
                     )
                     .map((card) => card.psychologist);
                 state.items = [...state.items, ...checkedData];
-                console.log(checkedData.length);
-
                 state.hasMore = checkedData.length === 3;
                 state.lastTimeStampFav = action.payload.lastTimeStamp;
                 state.wasFetched = true;
