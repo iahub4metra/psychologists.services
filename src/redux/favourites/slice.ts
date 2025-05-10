@@ -13,6 +13,7 @@ interface InitialValue {
     errorFav: string | null;
     fetchError: string | null;
     loadingFav: boolean;
+    wasFetched: boolean;
 }
 
 const initialState: InitialValue = {
@@ -22,6 +23,7 @@ const initialState: InitialValue = {
     errorFav: null,
     fetchError: null,
     loadingFav: false,
+    wasFetched: false,
 };
 
 const favouritesSlice = createSlice({
@@ -58,12 +60,16 @@ const favouritesSlice = createSlice({
                     )
                     .map((card) => card.psychologist);
                 state.items = [...state.items, ...checkedData];
-                state.hasMore = action.payload.favourites.length === 3;
+                console.log(checkedData.length);
+
+                state.hasMore = checkedData.length === 3;
                 state.lastTimeStampFav = action.payload.lastTimeStamp;
+                state.wasFetched = true;
             })
             .addCase(fetchFavourites.rejected, (state) => {
                 state.loadingFav = false;
                 state.fetchError = 'Failed to load favourites';
+                state.wasFetched = true;
             })
             .addCase(addFavouriteToDb.rejected, (state) => {
                 state.errorFav = 'Failed to add to favourites';

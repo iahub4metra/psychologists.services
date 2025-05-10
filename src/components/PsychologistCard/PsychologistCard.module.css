@@ -12,6 +12,7 @@
 
 .psychologistAboutTextMb {
     margin-bottom: 48px;
+    max-height: fit-content;
 }
 
 .btnAppointment {

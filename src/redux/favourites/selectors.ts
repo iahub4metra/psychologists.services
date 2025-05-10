@@ -7,3 +7,4 @@ export const selectHasMore = (state: RootState) => state.fav.hasMore;
 export const selectErrorFav = (state: RootState) => state.fav.errorFav;
 export const selectFetchError = (state: RootState) => state.fav.fetchError;
 export const selectLoadingFav = (state: RootState) => state.fav.loadingFav;
+export const selectWasFetched = (state: RootState) => state.fav.wasFetched;
