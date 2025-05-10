@@ -62,7 +62,9 @@ const favouritesSlice = createSlice({
                 state.items = [...state.items, ...checkedData];
                 state.hasMore = checkedData.length === 3;
                 state.lastTimeStampFav = action.payload.lastTimeStamp;
-                state.wasFetched = true;
+                if (action.meta.arg.lastTimeStamp === null) {
+                    state.wasFetched = true;
+                }
             })
             .addCase(fetchFavourites.rejected, (state) => {
                 state.loadingFav = false;
