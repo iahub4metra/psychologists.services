@@ -161,7 +161,11 @@ export default function FavouritesList() {
                         )}
                     </ul>
                     {hasMore && (
-                        <button className={s.btnLoadMore} onClick={loadMore}>
+                        <button
+                            type="button"
+                            className={s.btnLoadMore}
+                            onClick={loadMore}
+                        >
                             Load More
                         </button>
                     )}
