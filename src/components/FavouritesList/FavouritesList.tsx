@@ -6,23 +6,20 @@ import s from './FavouritesList.module.css';
 import {
     selectFavPsychologists,
     selectFetchError,
-    selectHasMore,
-    selectLastTimeStampFav,
     selectLoadingFav,
+    selectPage,
 } from '../../redux/favourites/selectors';
 import { Filter } from '../../redux/psychologists/slice';
 import { selectFilter } from '../../redux/psychologists/selectors';
-import { fetchFavourites } from '../../redux/favourites/operations';
-import { selectUser } from '../../redux/auth/selectors';
+//mport { fetchFavourites } from '../../redux/favourites/operations';
+//import { selectUser } from '../../redux/auth/selectors';
 import { Skeleton } from '@mui/material';
+import { increasePage } from '../../redux/favourites/slice';
 
 export default function FavouritesList() {
     const dispatch: AppDispatch = useDispatch();
     const favPsychologists = useSelector(selectFavPsychologists);
     const filter = useSelector(selectFilter);
-    const lastTimeStamp = useSelector(selectLastTimeStampFav);
-    const hasMore = useSelector(selectHasMore);
-    const user = useSelector(selectUser);
     const fetchError = useSelector(selectFetchError);
     const loading = useSelector(selectLoadingFav);
 
@@ -66,10 +63,20 @@ export default function FavouritesList() {
         favPsychologists,
         filter,
     );
+    const page = useSelector(selectPage);
+    const limit = 3;
+    const totalPages = Math.ceil(favPsychologists.length / limit);
 
+    const indexOfFirstItem = (page - 1) * limit;
+    const indexOfLastItem = indexOfFirstItem + limit;
+
+    const currentFavPsychologists = filteredFavPsychologists.slice(
+        0,
+        indexOfLastItem,
+    );
     const loadMore = () => {
-        if (lastTimeStamp) {
-            dispatch(fetchFavourites({ uid: user!.uid, lastTimeStamp }));
+        if (page < totalPages) {
+            dispatch(increasePage());
         }
     };
 
@@ -147,7 +154,7 @@ export default function FavouritesList() {
                     <ul
                         className={`flex gap-8 flex-col ${s.psychologistsList}`}
                     >
-                        {filteredFavPsychologists.map(
+                        {currentFavPsychologists.map(
                             (psychologist: Psychologist, index) => {
                                 return (
                                     <li key={index} className="@container/card">
@@ -160,12 +167,8 @@ export default function FavouritesList() {
                             },
                         )}
                     </ul>
-                    {hasMore && (
-                        <button
-                            type="button"
-                            className={s.btnLoadMore}
-                            onClick={loadMore}
-                        >
+                    {page < totalPages && (
+                        <button className={s.btnLoadMore} onClick={loadMore}>
                             Load More
                         </button>
                     )}

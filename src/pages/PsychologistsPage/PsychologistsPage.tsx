@@ -16,7 +16,7 @@ export default function Psychologists() {
     }, [dispatch]);
     useEffect(() => {
         if (user) {
-            dispatch(fetchFavourites({ uid: user.uid, lastTimeStamp: null }));
+            dispatch(fetchFavourites({ uid: user.uid }));
         }
     }, [dispatch, user]);
 

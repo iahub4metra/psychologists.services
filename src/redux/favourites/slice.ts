@@ -8,22 +8,18 @@ import {
 
 interface InitialValue {
     items: Psychologist[];
-    lastTimeStampFav: string | null;
-    hasMore: boolean | null;
     errorFav: string | null;
     fetchError: string | null;
     loadingFav: boolean;
-    wasFetched: boolean;
+    page: number;
 }
 
 const initialState: InitialValue = {
     items: [],
-    lastTimeStampFav: null,
-    hasMore: null,
     errorFav: null,
     fetchError: null,
     loadingFav: false,
-    wasFetched: false,
+    page: 0,
 };
 
 const favouritesSlice = createSlice({
@@ -42,6 +38,9 @@ const favouritesSlice = createSlice({
         clearAllFavourites: (state) => {
             state.items = [];
         },
+        increasePage: (state) => {
+            state.page += 1;
+        },
     },
     extraReducers(builder) {
         builder
@@ -54,22 +53,16 @@ const favouritesSlice = createSlice({
                     .filter(
                         (card) =>
                             !state.items.find(
-                                (existing) =>
-                                    existing.id === card.psychologist.id,
+                                (existing) => existing.id === card.id,
                             ),
                     )
-                    .map((card) => card.psychologist);
+                    .map((card) => card);
                 state.items = [...state.items, ...checkedData];
-                state.hasMore = checkedData.length === 3;
-                state.lastTimeStampFav = action.payload.lastTimeStamp;
-                if (action.meta.arg.lastTimeStamp === null) {
-                    state.wasFetched = true;
-                }
+                state.page = 1;
             })
             .addCase(fetchFavourites.rejected, (state) => {
                 state.loadingFav = false;
                 state.fetchError = 'Failed to load favourites';
-                state.wasFetched = true;
             })
             .addCase(addFavouriteToDb.rejected, (state) => {
                 state.errorFav = 'Failed to add to favourites';
@@ -90,6 +83,7 @@ export const {
     addFavPsychologistToState,
     removeFavPsychologistToState,
     clearAllFavourites,
+    increasePage,
 } = favouritesSlice.actions;
 
 export const favouritesReducer = favouritesSlice.reducer;
