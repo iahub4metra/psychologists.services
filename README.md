@@ -2,9 +2,27 @@
 
 **Psychologists.services** is a modern web platform for browsing, filtering, and booking consultations with professional psychologists. The app features an intuitive UI, responsive design, and allows users to interact with psychologist profiles — add to favourites, read reviews, and make appointments.
 
+---
+
 ### Live Demo
 
 [Visit app](https://psychologists-services-iota.vercel.app/)
+
+---
+
+### 🧠 Project Description
+
+This project helps users easily find a qualified psychologist.  
+The platform allows:
+
+-   🔍 Filtering by rating, price, experience
+-   ❤️ Adding psychologists to favourites
+-   📅 Booking appointments
+-   ✨ Reading reviews from other users
+
+It is fully responsive and optimized for performance and user experience.
+
+---
 
 ### Features
 
@@ -17,16 +35,40 @@
 -   Ratings and reviews for each specialist
 -   Integration with Firebase and REST API
 
+---
+
 ### Technologies used
 
--   React
--   TypeScript
--   Vite
--   Redux Toolkit
--   CSS Modules
--   Tailwind CSS
--   REST API
--   Firebase Authentication & Realtime Database
+-   **React**
+-   **TypeScript**
+-   **Vite**
+-   **Redux Toolkit**
+-   **CSS Modules**
+-   **Tailwind CSS**
+-   **REST API**
+-   **Firebase Authentication & Realtime Database**
+
+---
+
+### 🎨 Layout / Mockup
+
+Figma layout was used as a reference.  
+[Mockup](https://www.figma.com/file/I5vjNb0NsJOpQRnRpMloSY/Psychologists.Services?type=design&node-id=0-1&mode=design&t=4zfT2zFANRbp1fCK-0)
+
+---
+
+### 📋 Technical Specification
+
+-   Firebase Realtime Database used for storage
+-   Each authenticated user can have their own favourites list
+-   App fetches data with pagination
+-   Favourites stored per user
+-   Dynamic UI based on login state
+-   Data validation and optimistic UI updates
+-   Skeleton loading implemented for smoother UX
+-   Includes basic error handling and notifications
+
+---
 
 # Installation and Setup Instructions
 
@@ -80,6 +122,8 @@ yarn build
 ```
 
 The build will be generated in the dist folder.
+
+---
 
 ## Author
 
