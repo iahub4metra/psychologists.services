@@ -118,7 +118,7 @@ export default function PsychologistCard({
         >
             <div>
                 <div
-                    className="p-3 border-[2px] rounded-[30px] max-w-[120px]"
+                    className="p-3 border-[2px] rounded-[30px] max-w-[120px] relative"
                     style={{ borderColor: 'var(--Photo-border)' }}
                 >
                     <img
@@ -126,6 +126,7 @@ export default function PsychologistCard({
                         src={psychologist.avatar_url}
                         alt="Psychologist`s photo"
                     />
+                    <div className="w-[14px] h-[14px] bg-[#38CD3E] rounded-[50%] border-[2px] border-solid border-[#fbfbfb] absolute top-[9px] right-[10px]"></div>
                 </div>
             </div>
             <div>

@@ -4,12 +4,20 @@ import { appointmentSchema } from '../../utils/validationSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
+import type ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TextField } from '@mui/material';
+import { GoClock } from 'react-icons/go';
 import './TimePicker.css';
 import { AppDispatch } from '../../redux/store';
 import { useDispatch } from 'react-redux';
-import { closeModal } from '../../redux/modal/slice';
+import {
+    closeModal,
+    errorAppointmentSnackBar,
+    resetAppointmentSnackBars,
+    setAppointmentSnackBar,
+} from '../../redux/modal/slice';
+import { useRef } from 'react';
 
 interface AppointmentFormProps {
     psychologist: Psychologist | null;
@@ -39,13 +47,18 @@ export default function AppointmentForm({
     });
 
     const dispatch: AppDispatch = useDispatch();
-
-    const onSubmit = (data: FormValues) => {
-        console.log(
-            `name: ${data.name}; email: ${data.email}; phone: ${data.phone}; time: ${data.time}; comment: ${data.comment}`,
-        );
-        reset();
-        dispatch(closeModal());
+    const datePickerRef = useRef<ReactDatePicker>(null);
+    const onSubmit = async () => {
+        dispatch(resetAppointmentSnackBars());
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            dispatch(setAppointmentSnackBar());
+        } catch {
+            dispatch(errorAppointmentSnackBar());
+        } finally {
+            reset();
+            dispatch(closeModal());
+        }
     };
 
     return (
@@ -123,8 +136,9 @@ export default function AppointmentForm({
                             }}
                         />
                     </div>
-                    <div className="max-[656px]:w-full">
+                    <div className="max-[656px]:w-full relative">
                         <DatePicker
+                            ref={datePickerRef}
                             showPopperArrow={false}
                             selected={watch('time') || null}
                             onChange={(date) => {
@@ -145,6 +159,10 @@ export default function AppointmentForm({
                         {errors.time && (
                             <p className={s.errorTime}>{errors.time.message}</p>
                         )}
+                        <GoClock
+                            className="absolute top-[17px] right-[18px] w-[20px] h-[20px] cursor-pointer"
+                            onClick={() => datePickerRef.current?.setOpen(true)}
+                        />
                     </div>
                 </div>
                 <div className="mb-[16px]">

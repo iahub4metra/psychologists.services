@@ -4,6 +4,8 @@ import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectAppointmentPsychologist,
+    selectAppointmentSnackBar,
+    selectErrorAppointmentSnackBar,
     selectIsModalOpen,
     selectModalType,
 } from '../../redux/modal/selectors';
@@ -18,6 +20,7 @@ import AppointmentForm from '../AppointmentForm/AppointmentForm';
 import ModalManager from '../Modal/ModalManager';
 import { selectError } from '../../redux/auth/selectors';
 import { Alert, Snackbar, SnackbarCloseReason } from '@mui/material';
+import { resetAppointmentSnackBars } from '../../redux/modal/slice';
 
 ReactModal.setAppElement('#root');
 
@@ -27,12 +30,15 @@ export default function App() {
     const appointmentPsychologist = useSelector(selectAppointmentPsychologist);
     const dispatch: AppDispatch = useDispatch();
     const error = useSelector(selectError);
+    const appointmentError = useSelector(selectErrorAppointmentSnackBar);
+    const appointmentSnackBarSuccess = useSelector(selectAppointmentSnackBar);
 
     const handleClose = (_: unknown, reason?: SnackbarCloseReason) => {
         if (reason === 'clickaway') {
             return;
         }
         dispatch(setError(false));
+        dispatch(resetAppointmentSnackBars());
     };
 
     useEffect(() => {
@@ -78,6 +84,34 @@ export default function App() {
                     sx={{ width: '100%' }}
                 >
                     Something went wrong. Try reloading the page.
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={appointmentError}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    Something went wrong. Try reloading the page.
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={appointmentSnackBarSuccess}
+                autoHideDuration={6000}
+                onClose={handleClose}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    Success! A psychologist will contact you shortly.
                 </Alert>
             </Snackbar>
         </div>

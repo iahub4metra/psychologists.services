@@ -10,6 +10,7 @@
     width: 232px;
     outline: transparent;
     transition: all 250ms cubic-bezier(0.4, 0.2, 0, 0.1);
+    font-family: 'Inter';
 }
 
 .timePicker.error {
@@ -76,12 +77,9 @@
 }
 
 .react-datepicker-time__header {
-    color: #191A15;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 24px;
+    visibility: hidden;
+    position: relative;
+    height: 24px;
 }
 
 .react-datepicker__time-container {
@@ -91,6 +89,21 @@
 
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
     width: auto;
+}
+
+.react-datepicker-time__header::after {
+    content: 'Meeting time';
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #191A15;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
 }
 
 @media screen and (max-width: 655px) {
